@@ -1,0 +1,294 @@
+﻿
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head >
+    <title>ToDos</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        form {
+            border: 3px solid #f1f1f1;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        #txt_error {
+            color: red
+        }
+
+        .cnbtn {
+            background-color: #ec3f3f;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 49%;
+        }
+
+        .lgnbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 50%;
+        }
+
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+        }
+
+        img.avatar {
+            width: 40%;
+            border-radius: 50%;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        span.psw {
+            float: right;
+            padding-top: 16px;
+        }
+        /* Change styles for span and cancel button on extra small screens */
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+
+            .cnbtn {
+                width: 100%;
+            }
+        }
+
+        .frmalg {
+            width: 100%;
+        }
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px auto;
+            border: 3px solid #f1f1f1;
+        }
+
+        tr, td, th {
+            text-align: left;
+            padding: 18px;
+        }
+
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+        .mainC {
+            display: flex;
+            background-color: red;
+        }
+
+        .abc {
+            position: fixed;
+            bottom: -150px;
+            width: 100%;
+            left: 0;
+        }
+        .lgnbtn{
+            display:inline-block;
+            text-align:center;
+            margin:10px;
+            width:30%;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <form id="form1"  class="frmalg">
+            <div class="container">
+                <h3>Your ToDos</h3>
+                <input type="text" id="txt_error" ReadOnly style="display:none;"/>
+                <label for="txt_title"><b>Title</b></label>
+                <input type="text" id="txt_title" placeholder="Enter title" required/>
+                <label for="txt_description"><b>Description</b></label>
+                <input type="text" id="txt_description" placeholder="Enter Description" required/>
+                <label for="enddate"><b>End Date</b></label>
+                <input type="date" id="endDate" TextMode="Date" required/>
+                <input type="button" id="btn_Save" Class="lgnbtn" value="Save ToDo" />
+                <a href="Profile.html" style="text-decoration:none;font-size:13.8px" role="button" id="btn_profile" Class="lgnbtn">Profile</a>
+                <input type="button" id="btn_logout" Class="lgnbtn" value="Logout" />
+            </div>
+            <table id="todos" class="table-striped">
+                <tr>
+                   <th>id</th> 
+                   <th>title</th> 
+                   <th>description</th> 
+                   <th>enddate</th>
+                    <th>Delete</th>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+
+    <script>
+        let todos = document.getElementById("todos");
+        const id = localStorage.getItem("id");
+
+        let logout = document.getElementById("btn_logout");
+
+
+
+
+        let addToDo = document.getElementById("btn_Save");
+        let title = document.getElementById("txt_title");
+        let description = document.getElementById("txt_description");
+        let enddate = document.getElementById("endDate");
+
+
+        let mytodos = [];
+
+
+        (async function main() {
+            try {
+                let url = 'https://localhost:44346/api/ToDo?userid=' + id;
+                let response = await fetch(url, {
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    alert("invalid credentials");
+                    throw new Error("Invalid Credentials");
+                }
+                let data = await response.json(); // read response body and parse as JSON
+
+                //console.log(data);
+                mytodos = data;
+                mytodos.forEach(todo => {
+                    todos.innerHTML += `
+
+                            <tr>
+                                <td> ${todo.id} </td>
+                                <td> ${todo.title} </td>
+                                <td> ${todo.description} </td>
+                                <td> ${todo.endDate} </td>
+                                <td> <span id="delete" style="cursor:pointer;">Delete</span></td>
+                            </tr>
+
+                        `;
+                });
+
+                const deletebuttons = document.querySelectorAll('#delete');
+                console.log(deletebuttons);
+
+                deletebuttons.forEach((button, index) => {
+                    button.addEventListener("click", async () => {
+                        console.log()
+                        try {
+                            let url = 'https://localhost:44346/api/ToDo?userid=' + id + '&id=' + mytodos[index].id;
+                            let response = await fetch(url, {
+                                method: "DELETE",
+                            });
+
+                            if (!response.ok) {
+                                alert("Can not delete todo");
+                                throw new Error("Can not delete todo");
+                            }
+                            let data = await response.json(); // read response body and parse as JSON
+
+                            console.log(data);
+                            location.reload();
+                        }
+                        catch (err) { console.log(err); }
+
+                    });
+                });
+
+            }
+            catch (err) { console.log(err); }
+        }
+        )();
+
+
+
+        addToDo.addEventListener("click", async () => {
+            try {
+                let url = 'https://localhost:44346/api/ToDo';
+                let response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify({ id: "", title: title.value, description: description.value, endDate: endDate.value, userid: id }),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                if (!response.ok) {
+                    alert("Can not add todo");
+                    throw new Error("Can not add todo");
+                }
+                let data = await response.json(); // read response body and parse as JSON
+
+                mytodos = data;
+                todos.innerHTML = `<tr>
+                        <th> id</th>
+                            <th>title</th>
+                            <th>description</th>
+                            <th>enddate</th>
+                            <th>Delete</th>
+                    </tr >`;
+                mytodos.forEach(todo => {
+                    todos.innerHTML += `
+
+                            <tr>
+                                <td> ${todo.id} </td>
+                                <td> ${todo.title} </td>
+                                <td> ${todo.description} </td>
+                                <td> ${todo.endDate} </td>
+                                <td> <span id="delete" style="cursor:pointer;">Delete</span></td>
+                            </tr>
+
+                        `;
+                });
+
+                
+                title.value = "";
+                description.value = "";
+                enddate.value = "";
+                location.reload();
+
+                //console.log(data);
+            }
+            catch (err) { console.log(err); }
+        });
+
+
+
+        logout.addEventListener("click", () => {
+            localStorage.clear();
+            window.location.assign("User.html");
+        });
+
+
+
+    </script>
+
+</body>
+</html>

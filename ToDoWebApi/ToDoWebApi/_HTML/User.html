@@ -1,0 +1,151 @@
+﻿
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head >
+    <title>Login Form</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        form {
+            border: 3px solid #f1f1f1;
+        }
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        #txt_error{
+            color:red
+        }
+        .cnbtn {
+            background-color: #ec3f3f;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 49%;
+        }
+
+        .lgnbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 50%;
+        }
+
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+        }
+
+        img.avatar {
+            width: 40%;
+            border-radius: 50%;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        span.psw {
+            float: right;
+            padding-top: 16px;
+        }
+        /* Change styles for span and cancel button on extra small screens */
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+
+            .cnbtn {
+                width: 100%;
+            }
+        }
+
+        .frmalg {
+            margin: auto;
+            width: 40%;
+        }
+        .lgnbtn {
+            width: 40%;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
+
+
+</head>
+<body>
+    <form id="form1"  class="frmalg">
+
+        <div class="container">
+
+            <h3>Login form </h3>
+            <input type="text" id="txt_error" style="display:none;" ReadOnly />
+            <label for="uname"><b>Userid</b></label>
+            <input type="text" id="txt_Username" placeholder="Enter Username" >
+            <label for="psw"><b>Password</b></label>
+            <input type="password" id="txt_password" TextMode="Password" placeholder="Enter Password" />
+            <input type="button" id="btn_Login" Class="lgnbtn" value="Login" />
+            <a href="SignUp.html" style="text-decoration:none;font-size:13.8px" role="button" id="btn_Signup" Class="lgnbtn">SignUp</a>
+        </div>
+    </form>
+
+
+
+    <script>
+        var login = document.getElementById("btn_Login");
+        var SignUp = document.getElementById("btn_Signup");
+        var username = document.getElementById("txt_Username");
+        var password = document.getElementById("txt_password");
+
+
+        login.addEventListener("click", async () => {
+
+            try {
+                let url = 'https://localhost:44346/api/user/login-user?id=' + username.value + '&password=' + password.value;
+                let response = await fetch(url, {
+                    method: "GET",
+                    //body: JSON.stringify({ password: password.value }),
+                    //headers: {"Content-Type":"application/json"},
+                });
+
+                if (!response.ok) {
+                    alert("invalid credentials");
+                    throw new Error("Invalid Credentials");
+                }
+                let data = await response.json(); // read response body and parse as JSON
+
+                console.log(data);
+                localStorage.setItem("id", username.value);
+                window.location.assign("ToDo.html");
+            }
+            catch (err) { console.log(err); }
+
+
+        });
+        SignUp.addEventListener("click", async () => { });
+
+    </script>
+</body>
+</html>

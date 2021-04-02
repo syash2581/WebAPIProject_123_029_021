@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        form {
+            border: 3px solid #f1f1f1;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        #txt_error {
+            color: red
+        }
+
+        .cnbtn {
+            background-color: #ec3f3f;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 49%;
+        }
+
+        .lgnbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 50%;
+        }
+
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+        }
+
+        img.avatar {
+            width: 40%;
+            border-radius: 50%;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        span.psw {
+            float: right;
+            padding-top: 16px;
+        }
+        /* Change styles for span and cancel button on extra small screens */
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+
+            .cnbtn {
+                width: 100%;
+            }
+        }
+
+        .frmalg {
+            margin: auto;
+            width: 40%;
+        }
+
+        .lgnbtn {
+            margin: 10px;
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" class="frmalg">
+        <div class="container">
+            <h3>Profile</h3>
+            <label for="name"><b>Name</b></label>
+            <input type="text" id="name" placeholder="Enter Username" />
+            
+           <!-- <label for="dob"><b>Date Of Birth</b></label>
+            <input type="date" id="txt_dob" placeholder="Enter date of birth" />
+            <br />
+-->
+            <label for="email"><b>Email</b></label>
+            <input type="email" id="txt_email" placeholder="Enter Email" />
+
+            <br />
+            <label for="contact"><b>Contact</b></label>
+            <input type="tel" id="contact" placeholder="Enter Contact no" />
+            <br />
+            
+            
+            <a href="ToDo.html" style="text-decoration:none;font-size:13.8px" role="button" id="btn_ToDos" Class="lgnbtn">Back to ToDos</a>
+            
+            <input type="submit" id="btn_UpdateProfile" Class="lgnbtn" value="Update Profile" />
+        </div>
+    </form>
+
+
+
+
+    <script>
+
+        const id = localStorage.getItem("id");
+        let name = document.getElementById('name');
+        let dob;
+        let password;
+        let email = document.getElementById('txt_email');
+        let contact = document.getElementById('contact');
+
+        let update = document.getElementById('btn_UpdateProfile');
+
+
+
+
+        (async function main() {
+            try {
+                let url = 'https://localhost:44346/api/User?id=' + id;
+                let response = await fetch(url, {
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    alert("invalid credentials");
+                    throw new Error("Invalid Credentials");
+                }
+                let data = await response.json(); // read response body and parse as JSON
+
+                console.log(data);
+                name.value = data.name;
+                dob = data.dob;
+                email.value = data.email;
+                contact.value = data.contact;
+                password = data.value;
+
+            }
+            catch (err) { console.log(err); }
+        }
+        )();
+
+
+        update.addEventListener("click", async () => {
+            try {
+                let url = 'https://localhost:44346/api/User?id='+id;
+                let response = await fetch(url, {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        id: "", userid: id.value, name: name.value, dob: dob,
+                        email: email.value, contact: contact.value, password: password
+                    }),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                if (!response.ok) {
+                    alert("Can not update profile");
+                    throw new Error("Can not update profile");
+                }
+                let data = await response.json(); // read response body and parse as JSON
+                console.log(data);
+                location.reload();
+            }
+            catch (err) { console.log(err); }
+        });
+    </script>
+</body>
+</html>

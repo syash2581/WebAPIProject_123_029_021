@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>SignUp Form</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        form {
+            border: 3px solid #f1f1f1;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        #txt_error{
+            color:red
+        }
+        .cnbtn {
+            background-color: #ec3f3f;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 49%;
+        }
+
+        .lgnbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 40%;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+        }
+
+        img.avatar {
+            width: 40%;
+            border-radius: 50%;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        span.psw {
+            float: right;
+            padding-top: 16px;
+        }
+        /* Change styles for span and cancel button on extra small screens */
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+
+            .cnbtn {
+                width: 100%;
+            }
+        }
+
+        .frmalg {
+            margin: auto;
+            width: 40%;
+        }
+        
+    </style>
+</head>
+<body>
+    <form id="form1" class="frmalg">
+        <div class="container">
+            <h3>SignUp form </h3>
+            <input type="text" id="txt_error" style="display:none;" readonly />
+            <label for="userid"><b>Userid</b></label>
+            <input type="text" id="userid" placeholder="Enter Userid" />
+            <label for="name"><b>Name</b></label>
+            <input id="name" placeholder="Enter Username" />
+            <label for="dob"><b>Date Of Birth</b></label>
+            <input type="date" id="txt_dob" />
+            <br />
+            <label for="email"><b>Email</b></label>
+            <input type="email" id="txt_email" placeholder="Enter Email" />
+            <br />
+            <label for="contact"><b>Contact</b></label>
+            <input type="tel" id="contact" placeholder="Enter Contact no" />
+            <br />
+            <label for="password"><b>Password</b></label>
+            <input type="password" id="password" placeholder="Enter Password" />
+
+            <a href="User.html" style="text-decoration:none;font-size:13.8px" role="button" id="btn_login" Class="lgnbtn">Back to Login</a>
+            <input type="button" id="btn_Signup" Class="lgnbtn" value="SignUp" />
+        </div>
+    </form>
+
+
+    <script>
+        let userid = document.getElementById('userid');
+        let name = document.getElementById('name');
+        let dob = document.getElementById('txt_dob');
+        let contact = document.getElementById('contact');
+        let password = document.getElementById('password');
+        let email = document.getElementById('txt_email');
+
+        let signUp = document.getElementById('btn_Signup');
+
+
+
+
+        signUp.addEventListener("click", async () => {
+            try {
+                let url = 'https://localhost:44346/api/User';
+                let response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        id: "", userid: userid.value, name: name.value, dob: dob.value,
+                        email: email.value, contact: contact.value, password: password.value
+                    }),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                if (!response.ok) {
+                    alert("Can not add User");
+                    throw new Error("Can not add user");
+                }
+                let data = await response.json(); // read response body and parse as JSON
+
+                localStorage.setItem("id", userid.value);
+                window.location.assign("ToDo.html");
+                //console.log(data);
+            }
+            catch (err) { console.log(err); }
+        });
+    </script>
+
+
+</body>
+</html>

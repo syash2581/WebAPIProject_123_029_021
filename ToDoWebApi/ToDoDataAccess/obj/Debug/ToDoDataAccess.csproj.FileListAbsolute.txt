@@ -1,0 +1,14 @@
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\AdvanceToDo.mdf
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\AdvanceToDo_log.ldf
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\ToDoDataAccess.dll.config
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\ToDoDataAccess.dll
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\ToDoDataAccess.pdb
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\EntityFramework.dll
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\EntityFramework.SqlServer.dll
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\EntityFramework.xml
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\bin\Debug\EntityFramework.SqlServer.xml
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\obj\Debug\ToDoDataAccess.csprojAssemblyReference.cache
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\obj\Debug\ToDoDataAccess.csproj.CoreCompileInputs.cache
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\obj\Debug\ToDoDataAccess.csproj.CopyComplete
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\obj\Debug\ToDoDataAccess.dll
+E:\YASH_DDU\6TH_SEM\Practical\SOC\WebApiProject\ToDoWebApi\ToDoDataAccess\obj\Debug\ToDoDataAccess.pdb
